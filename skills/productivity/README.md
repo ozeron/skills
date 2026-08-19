@@ -7,6 +7,7 @@ General workflow tools, not code-specific.
 Reachable only when you type them.
 
 - **[handoff](./handoff/SKILL.md)**: Compact the current conversation into a handoff document so another agent can continue the work. From [mattpocock/skills](https://github.com/mattpocock/skills).
+- **[teach](./teach/SKILL.md)**: Teach the user a new skill or concept over multiple sessions, using the current directory as a stateful teaching workspace. From [mattpocock/skills](https://github.com/mattpocock/skills).
 
 ## Model-invoked
 
