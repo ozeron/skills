@@ -1,0 +1,12 @@
+{
+  "name": "ozeron-skills",
+  "version": "0.1.0",
+  "description": "Alex Lapchenko's agent skills, installable as a Claude Code plugin.",
+  "author": {
+    "name": "Alex Lapchenko"
+  },
+  "repository": "https://github.com/ozeron/skills",
+  "license": "MIT",
+  "keywords": [],
+  "skills": []
+}

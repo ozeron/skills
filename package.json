@@ -1,0 +1,11 @@
+{
+  "name": "ozeron-skills",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Alex Lapchenko's agent skills for Claude Code and Codex",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ozeron/skills"
+  },
+  "license": "MIT"
+}

@@ -1,0 +1,16 @@
+{
+  "name": "ozeron",
+  "owner": {
+    "name": "Alex Lapchenko"
+  },
+  "description": "Alex Lapchenko's skills, as an installable Claude Code plugin.",
+  "plugins": [
+    {
+      "name": "ozeron-skills",
+      "source": "./",
+      "description": "Alex Lapchenko's agent skills.",
+      "category": "engineering",
+      "keywords": []
+    }
+  ]
+}
