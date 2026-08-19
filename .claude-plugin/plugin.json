@@ -9,6 +9,10 @@
   "license": "MIT",
   "keywords": [],
   "skills": [
+    "./skills/engineering/tdd",
+    "./skills/engineering/code-review",
+    "./skills/productivity/grilling",
+    "./skills/productivity/handoff",
     "./skills/productivity/i-have-adhd"
   ]
 }
