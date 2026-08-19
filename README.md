@@ -23,6 +23,8 @@ Each bucket has its own `README.md` listing its skills.
 - **[handoff](./skills/productivity/handoff/SKILL.md)** — compact the conversation into a handoff doc for the next agent. From [mattpocock/skills](https://github.com/mattpocock/skills).
 - **[teach](./skills/productivity/teach/SKILL.md)** — teach a concept over multiple sessions using a stateful workspace. From [mattpocock/skills](https://github.com/mattpocock/skills).
 - **[i-have-adhd](./skills/productivity/i-have-adhd/SKILL.md)** — shape output for a reader with ADHD.
+- **[implement](./skills/engineering/implement/SKILL.md)** — build a spec/tickets end to end via `/tdd` then `/code-review`. From [mattpocock/skills](https://github.com/mattpocock/skills).
+- **[codebase-design](./skills/engineering/codebase-design/SKILL.md)** — vocabulary and principles for deep modules, seams, and testable interfaces. From [mattpocock/skills](https://github.com/mattpocock/skills).
 - **[deslop](./skills/engineering/deslop/SKILL.md)** — remove AI-generated code slop from a diff.
 - **[babysit](./skills/engineering/babysit/SKILL.md)** — keep a PR merge-ready: triage comments, resolve conflicts, fix CI, in a loop. Originally a Cursor built-in skill.
 
