@@ -8,5 +8,7 @@
   "repository": "https://github.com/ozeron/skills",
   "license": "MIT",
   "keywords": [],
-  "skills": []
+  "skills": [
+    "./skills/productivity/i-have-adhd"
+  ]
 }
