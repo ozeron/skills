@@ -25,6 +25,7 @@ Each bucket has its own `README.md` listing its skills.
 - **[i-have-adhd](./skills/productivity/i-have-adhd/SKILL.md)** — shape output for a reader with ADHD.
 - **[implement](./skills/engineering/implement/SKILL.md)** — build a spec/tickets end to end via `/tdd` then `/code-review`. From [mattpocock/skills](https://github.com/mattpocock/skills).
 - **[codebase-design](./skills/engineering/codebase-design/SKILL.md)** — vocabulary and principles for deep modules, seams, and testable interfaces. From [mattpocock/skills](https://github.com/mattpocock/skills).
+- **[improve-codebase-architecture](./skills/engineering/improve-codebase-architecture/SKILL.md)** — architectural review: surfaces deepening opportunities as an HTML report, then grills the user through picking one.
 - **[deslop](./skills/engineering/deslop/SKILL.md)** — remove AI-generated code slop from a diff.
 - **[babysit](./skills/engineering/babysit/SKILL.md)** — keep a PR merge-ready: triage comments, resolve conflicts, fix CI, in a loop. Originally a Cursor built-in skill.
 
