@@ -5,6 +5,8 @@
 # Usage: wait.sh [PR]   (run through Monitor or a background shell)
 #
 # BABYSIT_POLL: seconds between polls (default 30).
+# BABYSIT_GRACE: seconds to let new checks (review bots) register after a push or
+# ready-for-review before trusting a settled snapshot (default 60).
 set -uo pipefail
 
 HERE="$(cd "$(dirname "$0")" && pwd)"
@@ -15,9 +17,9 @@ for _ in $(seq 1 20); do
   gh pr checks "$PR" --json name -q length 2>/dev/null | grep -qv '^0$' && break
   sleep "$POLL"
 done
-gh pr checks "$PR" --watch --fail-fast --interval "${POLL/#0/1}" >/dev/null 2>&1
-
-for _ in $(seq 1 10); do
+sleep "${BABYSIT_GRACE:-60}"
+for _ in $(seq 1 20); do
+  gh pr checks "$PR" --watch --fail-fast --interval "${POLL/#0/1}" >/dev/null 2>&1
   state="$("$HERE/pr-state.sh" "$PR")"
   [[ "$(jq -r .next <<<"$state")" == wait ]] || break
   sleep "$POLL"

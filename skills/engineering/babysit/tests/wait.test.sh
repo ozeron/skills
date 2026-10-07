@@ -25,11 +25,12 @@ GH
 chmod +x "$WORK/bin/gh" "$WORK/skill/scripts/pr-state.sh"
 
 # shellcheck disable=SC2034
-OUT="$(PATH="$WORK/bin:$PATH" FAKE_LOG="$WORK/log" BABYSIT_POLL=0 "$WORK/skill/scripts/wait.sh" 7)"
+OUT="$(PATH="$WORK/bin:$PATH" FAKE_LOG="$WORK/log" BABYSIT_POLL=0 BABYSIT_GRACE=0 "$WORK/skill/scripts/wait.sh" 7)"
 FAILS=0
 check() { if eval "$2"; then echo "ok   $1"; else echo "FAIL $1"; FAILS=$((FAILS + 1)); fi; }
 check "retries until checks register" '[[ $(grep -c "^pr checks 7 --json" "$WORK/log") == 3 ]]'
 check "then watches with fail-fast" 'grep -q "^pr checks 7 --watch --fail-fast" "$WORK/log"'
+check "re-watches before each re-poll" '[[ $(grep -c -- "--watch" "$WORK/log") == 3 ]]'
 check "re-polls while next is wait" '[[ $(grep -c x "$WORK/log.state") == 3 ]]'
 check "prints one compact state line" '[[ $(grep -c "" <<<"$OUT") == 1 ]] && jq -e ".next == \"done\" and .pr == 7" <<<"$OUT" >/dev/null'
 (( FAILS )) && { cat "$WORK/log"; echo "$FAILS failed"; exit 1; }
