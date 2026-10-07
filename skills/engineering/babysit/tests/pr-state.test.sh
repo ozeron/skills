@@ -34,6 +34,7 @@ pr() {
     number: 7, url: "https://github.com/acme/widgets/pull/7", state: "OPEN",
     author: {login: "me"}, headRefName: "feat/x", baseRefName: "main",
     headRefOid: "abc123", mergeable: "MERGEABLE", mergeStateStatus: "CLEAN",
+    isDraft: false, reviewDecision: "APPROVED",
     additions: 30, deletions: 10, files: [{path: "src/a.py"}, {path: "tests/test_a.py"}]
   } * $o' >"$WORK/fix/pr.json"
 }
@@ -106,6 +107,17 @@ expect "no checks reported is not an error" '.checks' '{"failing":[],"pending":[
 
 setup; pr '{"mergeable":"UNKNOWN","mergeStateStatus":"UNKNOWN"}'; run 7
 expect "unknown mergeability means wait" '.next' '"wait"'
+
+setup; pr '{"isDraft":true,"reviewDecision":"REVIEW_REQUIRED"}'; run 7
+expect "own draft must be marked ready" '.next' '"ready"'
+expect "draft flag" '.draft' 'true'
+expect "review decision" '.review' '"REVIEW_REQUIRED"'
+
+setup; pr '{"isDraft":true}'; threads 1; run 7
+expect "threads before ready" '.next' '"threads"'
+
+setup; pr '{"isDraft":true,"author":{"login":"someone"}}'; run 7
+expect "someone else's draft is not ours to ready" '.next' '"done"'
 
 setup; pr '{"state":"MERGED"}'; run 7
 expect "merged PR" '.next' '"merged"'

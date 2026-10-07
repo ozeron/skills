@@ -5,13 +5,14 @@
 #
 # Output:
 #   { pr, url, head, branch, base, state, mode: own|review,
-#     mergeable, mergeState,
+#     draft, review, mergeable, mergeState,
 #     checks: {failing: [{name, link}], pending: [name], passed: n},
 #     botsPending: [name], threads: n,
 #     scope: {start, now, growth, files, newFiles},
-#     next: merged|closed|conflicts|ci|threads|update|wait|done }
+#     next: merged|closed|conflicts|ci|threads|update|wait|ready|done }
 #
-# `next` is the first blocker in babysit order. `scope` compares the diff size
+# `next` is the first blocker in babysit order; `ready` means an own draft is
+# otherwise done (review bots skip drafts). `scope` compares the diff size
 # (additions + deletions) with the first snapshot of this PR; the baseline lives
 # in $BABYSIT_STATE_DIR and resets with --rebaseline. When the checkout is on the
 # PR branch, sizes come from the local diff so unpushed commits count.
@@ -28,7 +29,7 @@ for arg in "$@"; do
   esac
 done
 
-pr_json="$(gh pr view ${PR:+"$PR"} --json number,url,state,author,headRefName,baseRefName,headRefOid,mergeable,mergeStateStatus,additions,deletions,files)"
+pr_json="$(gh pr view ${PR:+"$PR"} --json number,url,state,author,headRefName,baseRefName,headRefOid,isDraft,reviewDecision,mergeable,mergeStateStatus,additions,deletions,files)"
 PR="$(jq -r .number <<<"$pr_json")"
 me="$(gh api user | jq -r .login)"
 
@@ -72,6 +73,7 @@ jq -n \
       pr: $pr.number, url: $pr.url, head: $pr.headRefOid,
       branch: $pr.headRefName, base: $pr.baseRefName, state: $pr.state,
       mode: (if $pr.author.login == $me then "own" else "review" end),
+      draft: $pr.isDraft, review: $pr.reviewDecision,
       mergeable: $pr.mergeable, mergeState: $pr.mergeStateStatus,
       checks: {failing: $failing, pending: $pending,
                passed: ($checks | map(select(.bucket == "pass")) | length)},
@@ -88,5 +90,6 @@ jq -n \
         elif $threads > 0 then "threads"
         elif $pr.mergeStateStatus == "BEHIND" then "update"
         elif ($pending | length) > 0 or $pr.mergeable == "UNKNOWN" then "wait"
+        elif $pr.isDraft and $pr.author.login == $me then "ready"
         else "done" end)
     }'

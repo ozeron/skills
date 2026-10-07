@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
-# Block until a PR's checks register and settle, then print one compact pr-state line.
+# Block until a PR's checks register and settle and mergeability is known,
+# then print one compact pr-state line.
 #
 # Usage: wait.sh [PR]   (run through Monitor or a background shell)
 #
@@ -16,4 +17,9 @@ for _ in $(seq 1 20); do
 done
 gh pr checks "$PR" --watch --fail-fast --interval "${POLL/#0/1}" >/dev/null 2>&1
 
-"$HERE/pr-state.sh" "$PR" | jq -c '{pr, next, head, failing: .checks.failing, pending: .checks.pending, botsPending, threads, growth: .scope.growth}'
+for _ in $(seq 1 10); do
+  state="$("$HERE/pr-state.sh" "$PR")"
+  [[ "$(jq -r .next <<<"$state")" == wait ]] || break
+  sleep "$POLL"
+done
+jq -c '{pr, next, head, draft, review, failing: .checks.failing, pending: .checks.pending, botsPending, threads, growth: .scope.growth}' <<<"$state"

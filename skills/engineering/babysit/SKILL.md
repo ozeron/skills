@@ -31,6 +31,7 @@ Snapshot, act on `.next`, repeat:
 | `threads` | [Threads](#threads). |
 | `update` | Merge the base in. |
 | `wait` | [Wait](#wait). |
+| `ready` | Own draft, otherwise done: `gh pr ready <pr>` so review bots run, then wait. |
 | `done` | [Exit](#exit). |
 | `merged`, `closed` | Report and stop. |
 
@@ -38,7 +39,7 @@ A pass ends on a push followed by a wait, or on `done`.
 
 ## Threads
 
-`$S/fetch-threads.sh <pr>` lists unresolved threads; read each body, path and line, nothing else. Check every bot finding against the code before acting on it.
+`$S/fetch-threads.sh <pr>` lists unresolved threads; read each body, path and line, nothing else. Bots can also leave findings in a review body ("outside diff range", nitpicks); read the latest bot review on the head. Check every bot finding against the code before acting on it.
 
 Close each thread once its fix is pushed, or once you decline it with a reason:
 `$S/respond.sh <pr> <rootCommentId> <threadId> resolve "<what changed> (<sha>)"`
@@ -57,7 +58,7 @@ Start `$S/wait.sh <pr>` with the Monitor tool (`timeout_ms: 1800000`; re-arm on 
 
 ## Exit
 
-- **Done**: one `gh pr comment` mapping each handled thread to its fixing SHA or decline reason, plus the head SHA and `threads: 0`. Then PushNotification: `PR #<n> merge-ready at <sha>`.
+- **Done**: one `gh pr comment` mapping each handled thread to its fixing SHA or decline reason, plus the head SHA, `threads: 0` and `.review` (a human approval is the one gate left to them). Then PushNotification: `PR #<n> merge-ready at <sha>`.
 - **Blocked**: PushNotification with the one question, then stop.
 
 ## Friction
