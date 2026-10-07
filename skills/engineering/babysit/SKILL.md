@@ -41,7 +41,7 @@ A pass ends on a push followed by a wait, or on `done`.
 
 `$S/fetch-threads.sh <pr>` lists unresolved threads; read each body, path and line, nothing else. Bots can also leave findings in a review body ("outside diff range", nitpicks); read the latest bot review on the head. Check every bot finding against the code before acting on it.
 
-Close each thread once its fix is pushed, or once you decline it with a reason:
+Close each thread once its fix is on the remote (`git ls-remote origin <branch>` shows the fix SHA), or once you decline it with a reason:
 `$S/respond.sh <pr> <rootCommentId> <threadId> resolve "<what changed> (<sha>)"`
 
 Use `noresolve` and ask when it needs a product call, the code can't answer it, or the fix couldn't be verified. Review mode always uses `noresolve`. Over ~20 threads, offer [bulk mode](bulk.md).
@@ -54,7 +54,7 @@ Before every push, snapshot and read `.scope` (it counts unpushed commits). `gro
 
 Start `$S/wait.sh <pr>` with the Monitor tool (`timeout_ms: 1800000`; re-arm on expiry). It waits for checks to register and settle, then prints one snapshot line. Every wait goes through it.
 
-`done` also needs the review bots' pass on the latest head: `botsPending` empty, their new threads handled, and a review or summary from each bot. A green bot check can hide a skipped or paused review; report a paused or rate-limited bot instead of waiting on it.
+`done` also needs the review bots' pass on the latest head: `botsPending` empty, their new threads handled, and a review or summary from each bot. Comment-only bots (Codex) never appear in `botsPending`. A green bot check can hide a skipped or paused review; report a paused or rate-limited bot instead of waiting on it.
 
 ## Exit
 
