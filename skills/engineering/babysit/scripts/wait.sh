@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+# Block until a PR's checks register and settle, then print one compact pr-state line.
+#
+# Usage: wait.sh [PR]   (run through Monitor or a background shell)
+#
+# BABYSIT_POLL: seconds between polls (default 30).
+set -uo pipefail
+
+HERE="$(cd "$(dirname "$0")" && pwd)"
+PR="${1:-$(gh pr view --json number -q .number)}"
+POLL="${BABYSIT_POLL:-30}"
+
+for _ in $(seq 1 20); do
+  gh pr checks "$PR" --json name -q length 2>/dev/null | grep -qv '^0$' && break
+  sleep "$POLL"
+done
+gh pr checks "$PR" --watch --fail-fast --interval "${POLL/#0/1}" >/dev/null 2>&1
+
+"$HERE/pr-state.sh" "$PR" | jq -c '{pr, next, head, failing: .checks.failing, pending: .checks.pending, botsPending, threads, growth: .scope.growth}'

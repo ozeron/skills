@@ -17,4 +17,4 @@ Model- or user-reachable (rich trigger phrasing so the model can reach for them)
 - **[codebase-design](./codebase-design/SKILL.md)**: Shared discipline and vocabulary for designing deep modules: small interfaces, clean seams, testable through the interface. From [mattpocock/skills](https://github.com/mattpocock/skills).
 - **[improve-codebase-architecture](./improve-codebase-architecture/SKILL.md)**: Surface architectural friction and propose deepening opportunities via a visual HTML report, then grill the user through picking and designing one.
 - **[deslop](./deslop/SKILL.md)**: Remove AI-generated code slop and clean up code style against the diff since main.
-- **[babysit](./babysit/SKILL.md)**: Keep a PR merge-ready by triaging comments, resolving clear conflicts, and fixing CI in a loop. Originally a Cursor built-in skill.
+- **[babysit](./babysit/SKILL.md)**: Drive a PR to merge-ready (conflicts, CI, review threads) one blocker per pass. `scripts/pr-state.sh` snapshots the PR and names the next blocker; `scripts/wait.sh` waits on checks. Started as a Cursor built-in skill.
