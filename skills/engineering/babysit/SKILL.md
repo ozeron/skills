@@ -54,7 +54,7 @@ Before every push, snapshot and read `.scope` (it counts unpushed commits). `gro
 
 Start `$S/wait.sh <pr>` with the Monitor tool (`timeout_ms: 1800000`; re-arm on expiry). It waits for checks to register and settle, then prints one snapshot line. Every wait goes through it.
 
-`done` also needs the review bots' pass on the latest head: `botsPending` empty and their new threads handled.
+`done` also needs the review bots' pass on the latest head: `botsPending` empty, their new threads handled, and a review or summary from each bot. A green bot check can hide a skipped or paused review; report a paused or rate-limited bot instead of waiting on it.
 
 ## Exit
 
